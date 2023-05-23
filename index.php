@@ -86,7 +86,7 @@ $timer = number_format(microtime(true) - $timer, 4, '.', '');
         <div style="margin-top: 2rem">
             版本：<?= $queryInfo['Version']; ?> <?= empty($queryInfo['Plugins']) ? '原版服务器' : 'Mod 服务器' ?> <?= $queryInfo['Software'] ?>
         </div>
-        <div>玩法：<?= $queryInfo['GameType'] === 'SMP' ? '多人生存' : '其他' ?> </div>
+        <div>单人｜多人：<?= $queryInfo['GameType'] === 'SMP' ? '多人游戏' : '单人游戏' ?> </div>
 
         <div style="margin-top: 2rem">
             在线人数：<?= $queryInfo['Players'] ?> / <?= $queryInfo['MaxPlayers'] ?>
