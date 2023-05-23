@@ -21,3 +21,7 @@
 ## 截图
 
 <img src="https://github.com/dogeow/minecraft-server-status/assets/7204604/bfa0c5b9-3c56-474d-a8dc-dfbe9f816dab" width="50%"/>
+
+## License
+
+MIT licensed
