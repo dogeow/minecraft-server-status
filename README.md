@@ -26,8 +26,8 @@
 
 1. 克隆
 2. 我的世界服务端里的 server.properties，enable-query 修改为 true
-4. 修改 index.php 里面的服务器 IP、端口、查询端口
-5. 访问部署后的网站即可
+3. 修改 index.php 里面的服务器 IP、端口、查询端口
+4. 访问部署后的网站即可
 
 ## 代码更新
 
