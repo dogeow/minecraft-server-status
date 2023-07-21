@@ -15,49 +15,54 @@ const MQ_SERVER_PORT = 25565;
 const MQ_SERVER_QUERY_PORT = 25565;
 const MQ_TIMEOUT = 1;
 
+function createPing($serverAddr, $serverPort, $timeout)
+{
+    try {
+        $query = new MinecraftPing($serverAddr, $serverPort, $timeout);
+        $info = $query->Query();
+
+        if ($info === false) {
+            $query->Close();
+            $query->Connect();
+            $info = $query->QueryOldPre17();
+        }
+
+        return $info;
+    } catch (MinecraftPingException $e) {
+        echo "Unable to ping Minecraft server: ".$e->getMessage();
+        exit;
+    } finally {
+        if ($query !== null) {
+            $query->Close();
+        }
+    }
+}
+
+function createQuery($serverAddr, $queryPort)
+{
+    try {
+        $query = new MinecraftQuery();
+        $query->Connect($serverAddr, $queryPort);
+
+        $queryInfo = $query->GetInfo();
+        $players = $query->GetPlayers();
+        if ($players === false) {
+            $players = [];
+        }
+
+        return [$queryInfo, $players];
+    } catch (MinecraftQueryException $e) {
+        echo "Unable to query Minecraft server: ".$e->getMessage();
+        exit;
+    }
+}
+
 $timer = microtime(true);
-
-$info = false;
-$query = null;
-
-try {
-    $query = new MinecraftPing(MQ_SERVER_ADDR, MQ_SERVER_PORT, MQ_TIMEOUT);
-
-    $info = $query->Query();
-
-    if ($info === false) {
-        $query->Close();
-        $query->Connect();
-
-        $info = $query->QueryOldPre17();
-    }
-} catch (MinecraftPingException $e) {
-    $Exception = $e;
-}
-
-if ($query !== null) {
-    $query->Close();
-}
-
-$queryInfo = null;
-$players = [];
-$query = new MinecraftQuery();
-
-try {
-    $query->Connect(MQ_SERVER_ADDR, MQ_SERVER_QUERY_PORT);
-
-    $queryInfo = $query->GetInfo();
-    $players = $query->GetPlayers();
-    if ($players === false) {
-        $players = [];
-    }
-} catch (MinecraftQueryException $e) {
-    echo $e->getMessage();
-}
-
+$info = createPing(MQ_SERVER_ADDR, MQ_SERVER_PORT, MQ_TIMEOUT);
+list($queryInfo, $players) = createQuery(MQ_SERVER_ADDR, MQ_SERVER_QUERY_PORT);
 $timer = number_format(microtime(true) - $timer, 4, '.', '');
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,8 +77,10 @@ $timer = number_format(microtime(true) - $timer, 4, '.', '');
     <div class="p-6 mx-auto">
         <div class="flex justify-center space-x-4" style="align-items: center;">
             <?php
-            echo '<img src="'.str_replace("\n", "",
-                    $info['favicon']).'" class="rounded" style="width:64px;height:64px;">';
+            if (isset($info['favicon'])) {
+                echo '<img src="'.str_replace("\n", "",
+                        $info['favicon']).'" class="rounded" style="width:64px;height:64px;">';
+            }
             ?>
             <div>
                 <h1 class="text-3xl font-bold">
