@@ -24,6 +24,9 @@
 
 ## 如何使用
 
+- PHP，支持 PHP 7、PHP 8。
+- Web  服务器
+
 1. 克隆
 2. 我的世界服务端里的 server.properties，enable-query 修改为 true
 3. 修改 index.php 里面的服务器 IP、端口、查询端口
