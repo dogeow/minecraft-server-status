@@ -120,10 +120,6 @@ $timer = number_format(microtime(true) - $timer, 4, '.', '');
         <div class="text" style="margin-top: 2rem">
             服务器查询用时 <?= $timer ?> 秒
         </div>
-
-        <div class="text" style="margin-top: 2rem">
-            <a href="https://file.dogeow.com/Minecraft" target="_blank" rel="noreferrer">存档下载</a>
-        </div>
     </div>
 </div>
 </body>
