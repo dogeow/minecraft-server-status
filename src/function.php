@@ -1,4 +1,10 @@
 <?php
+
+use xPaw\MinecraftPing;
+use xPaw\MinecraftPingException;
+use xPaw\MinecraftQuery;
+use xPaw\MinecraftQueryException;
+
 function createPing($serverAddr, $serverPort, $timeout)
 {
     try {

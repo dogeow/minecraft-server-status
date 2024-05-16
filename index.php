@@ -6,11 +6,6 @@ require __DIR__.'/src/MinecraftQuery.php';
 require __DIR__.'/src/MinecraftQueryException.php';
 require __DIR__.'/src/function.php';
 
-use xPaw\MinecraftPing;
-use xPaw\MinecraftPingException;
-use xPaw\MinecraftQuery;
-use xPaw\MinecraftQueryException;
-
 const MQ_SERVER_ADDR = '127.0.0.1';
 const MQ_SERVER_PORT = 25565;
 const MQ_SERVER_QUERY_PORT = 25565;
