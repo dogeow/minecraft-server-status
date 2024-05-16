@@ -4,6 +4,7 @@ require __DIR__.'/src/MinecraftPing.php';
 require __DIR__.'/src/MinecraftPingException.php';
 require __DIR__.'/src/MinecraftQuery.php';
 require __DIR__.'/src/MinecraftQueryException.php';
+require __DIR__.'/src/function.php';
 
 use xPaw\MinecraftPing;
 use xPaw\MinecraftPingException;
@@ -14,48 +15,6 @@ const MQ_SERVER_ADDR = '127.0.0.1';
 const MQ_SERVER_PORT = 25565;
 const MQ_SERVER_QUERY_PORT = 25565;
 const MQ_TIMEOUT = 1;
-
-function createPing($serverAddr, $serverPort, $timeout)
-{
-    try {
-        $query = new MinecraftPing($serverAddr, $serverPort, $timeout);
-        $info = $query->Query();
-
-        if ($info === false) {
-            $query->Close();
-            $query->Connect();
-            $info = $query->QueryOldPre17();
-        }
-
-        return $info;
-    } catch (MinecraftPingException $e) {
-        echo "Unable to ping Minecraft server: ".$e->getMessage();
-        exit;
-    } finally {
-        if ($query !== null) {
-            $query->Close();
-        }
-    }
-}
-
-function createQuery($serverAddr, $queryPort)
-{
-    try {
-        $query = new MinecraftQuery();
-        $query->Connect($serverAddr, $queryPort);
-
-        $queryInfo = $query->GetInfo();
-        $players = $query->GetPlayers();
-        if ($players === false) {
-            $players = [];
-        }
-
-        return [$queryInfo, $players];
-    } catch (MinecraftQueryException $e) {
-        echo "Unable to query Minecraft server: ".$e->getMessage();
-        exit;
-    }
-}
 
 $timer = microtime(true);
 $info = createPing(MQ_SERVER_ADDR, MQ_SERVER_PORT, MQ_TIMEOUT);
@@ -106,17 +65,17 @@ $timer = number_format(microtime(true) - $timer, 4, '.', '');
                         <?php
                         foreach ($players as $player) {
                             echo "<div class='flex flex-col space-x-1'>";
-                            echo "<img src='https://minotar.net/cube/$player/64.png' style='width:2rem; height:2rem; align-self: center;'>";
+                            echo "<img src='https://minotar.net/cube/$player/64.png' style='width:2rem; height:2rem; align-self: center;' alt='cube'>";
                             echo "<div>$player</div>";
                             echo "</div>";
                         } ?>
                     </div>
                 </div>
-                <div style="border-bottom: 3rem solid;border-image: url(../images/minecraft_grass_block_texture.jpg) 1280 0 repeat;margin-top: 2rem">
+                <div style="border-bottom: 3rem solid;border-image: url(/images/minecraft_grass_block_texture.jpg) 1280 0 repeat;margin-top: 2rem">
                     <div class="flex" style='align-self: center;'>
                         <?php
                         foreach ($players as $player) {
-                            echo "<img src='https://minotar.net/body/$player/64.png' style='width:auto; height:6rem; margin-right:0.5rem'>";
+                            echo "<img src='https://minotar.net/body/$player/64.png' style='width:auto; height:6rem; margin-right:0.5rem' alt='body'>";
                         }
                         ?>
                     </div>
